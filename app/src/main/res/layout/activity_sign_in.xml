@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context="tehhutan.app.kajianhunteradmin.app.SignIn">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_centerInParent="true"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <com.rengwuxian.materialedittext.MaterialEditText
+            android:id="@+id/et_nrp"
+            android:hint="NRP"
+            android:text="5215100071"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColorHint="@color/colorPrimary"
+            android:textColor="@color/colorPrimaryDark"
+            android:textSize="20sp"
+            android:inputType="number"
+            app:met_baseColor="@color/colorPrimaryDark"
+            app:met_floatingLabel="highlight"
+            android:maxLength="14"
+            app:met_maxCharacters="14"
+            app:met_primaryColor="@color/colorPrimaryDark"
+            app:met_singleLineEllipsis="true"
+            />
+
+        <com.rengwuxian.materialedittext.MaterialEditText
+            android:id="@+id/et_password"
+            android:hint="Password"
+            android:text="1234567"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColorHint="@color/colorPrimary"
+            android:textColor="@color/colorPrimaryDark"
+            android:textSize="20sp"
+            android:inputType="textPassword"
+            app:met_baseColor="@color/colorPrimaryDark"
+            app:met_floatingLabel="highlight"
+            app:met_maxCharacters="16"
+            app:met_primaryColor="@color/colorPrimaryDark"
+            app:met_singleLineEllipsis="true"
+            />
+
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/btn_signin"
+        android:text="Sign In"
+        android:textColor="@android:color/white"
+        android:layout_marginRight="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_alignParentBottom="true"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:shadowColor="@android:color/black"
+        style="@style/ButtonSignIn"
+        app:shadowEnabled="true"
+        app:shadowHeight="5dp"
+        app:cornerRadius="10dp"
+
+        />
+
+</RelativeLayout>

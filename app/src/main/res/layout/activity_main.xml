@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.widget.RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context="tehhutan.app.kajianhunteradmin.app.MainActivity">
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_alignParentBottom="true"
+        android:weightSum="2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <Button
+            android:id="@+id/btn_signin"
+            android:text="Sign In"
+            android:textColor="@android:color/white"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:shadowColor="@android:color/black"
+            style="@style/ButtonSignIn"
+            app:shadowEnabled="true"
+            app:shadowHeight="5dp"
+            app:cornerRadius="10dp"
+
+            />
+
+        <Button
+            android:id="@+id/btn_signup"
+            android:text="Sign Up"
+            android:textColor="@android:color/white"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:shadowColor="@android:color/black"
+            style="@style/ButtonSignUp"
+            app:shadowEnabled="true"
+            app:shadowHeight="5dp"
+            app:cornerRadius="10dp"
+
+            />
+
+
+    </LinearLayout>
+
+
+</android.widget.RelativeLayout>

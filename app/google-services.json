@@ -1,0 +1,73 @@
+{
+  "project_info": {
+    "project_number": "713763999731",
+    "firebase_url": "https://kajian-hunter.firebaseio.com",
+    "project_id": "kajian-hunter",
+    "storage_bucket": "kajian-hunter.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:713763999731:android:6883b233f2ba1d31",
+        "android_client_info": {
+          "package_name": "tehhutan.app.kajianhunter"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "713763999731-njh0gtfsn7u1so862rf3gnkr53rf9akr.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDY_NypLQ7ZSJkQ_ciQv8AISYnD9jHg3as"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:713763999731:android:920b75af7c3da50f",
+        "android_client_info": {
+          "package_name": "tehhutan.app.kajianhunteradmin"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "713763999731-njh0gtfsn7u1so862rf3gnkr53rf9akr.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDY_NypLQ7ZSJkQ_ciQv8AISYnD9jHg3as"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
