@@ -44,7 +44,7 @@ public class SignIn extends AppCompatActivity {
                 mDialog.setMessage("Tunggu sebentar..");
                 mDialog.show();
 
-                table_user.addValueEventListener(new ValueEventListener() {
+                table_user.child("Admin").addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
 

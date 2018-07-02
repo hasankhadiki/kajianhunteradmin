@@ -74,7 +74,7 @@ public class SignUp extends AppCompatActivity {
                 mDialog.show();
 
 
-                table_user.addValueEventListener(new ValueEventListener() {
+                table_user.child("Admin").addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
                     //Cek apakah NRP sudah ada didalam database
@@ -87,7 +87,7 @@ public class SignUp extends AppCompatActivity {
                         {
                             mDialog.dismiss();
                             User user = new User(editEmail.getText().toString(), editNama.getText().toString(), editPassword.getText().toString());
-                            table_user.child(editNrp.getText().toString()).setValue(user);
+                            table_user.child("Admin").child(editNrp.getText().toString()).setValue(user);
                             Toast.makeText(SignUp.this, "Pendaftaran akun baru berhasil", Toast.LENGTH_SHORT).show();
                             finish();
                         }
