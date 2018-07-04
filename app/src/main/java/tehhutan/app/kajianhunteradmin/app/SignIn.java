@@ -57,7 +57,7 @@ public class SignIn extends AppCompatActivity {
                           User user = dataSnapshot.child(editNrp.getText().toString()).getValue(User.class);
                           if (user.getPassword().equals(editPassword.getText().toString())) {
 //                              Toast.makeText(SignIn.this, "Berhasil Masuk", Toast.LENGTH_SHORT).show();
-                              Intent bookingIntent = new Intent(SignIn.this, Booking.class);
+                              Intent bookingIntent = new Intent(SignIn.this, MainAct.class);
 
                               startActivity(bookingIntent);
                               finish();

@@ -2,12 +2,12 @@ package tehhutan.app.kajianhunteradmin;
 
 import android.app.TimePickerDialog;
 import android.content.Context;
-import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.v4.content.ContextCompat;
+import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -15,17 +15,15 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
-import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
-import com.google.android.gms.common.GooglePlayServicesRepairableException;
-import com.google.android.gms.location.places.Place;
-import com.google.android.gms.location.places.ui.PlacePicker;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -36,30 +34,29 @@ import tehhutan.app.kajianhunteradmin.ViewHolder.MenuViewHolder;
 import tehhutan.app.kajianhunteradmin.model.BookingList;
 
 
-public class Booking extends AppCompatActivity {
+public class KajianApproved extends Fragment {
+    FirebaseDatabase database;
+    DatabaseReference bookinglist;
 
-    private FirebaseDatabase database;
-    private DatabaseReference bookinglist;
+    RecyclerView recyclerBookingList;
+    RecyclerView.LayoutManager layoutManager;
 
-    private RecyclerView recyclerBookingList;
-    private RecyclerView.LayoutManager layoutManager;
+    BookingList newBooking;
 
-    private BookingList newBooking;
-
-    private EditText editNamaPeminjam, editOrganisasi, editKegiatan, editJamMulai, editJamAkhir;
-    private String plcLatitude="", plcLongtitude="";
-    private Button btnSubmit;
-    private int PLACE_PICKER_REQUEST = 442;
+    EditText editNamaPeminjam, editOrganisasi, editKegiatan, editJamMulai, editJamAkhir;
+    Button btnSubmit;
+    int PLACE_PICKER_REQUEST = 1;
 
 
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.app_bar_booking);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        toolbar.setTitle("Kajian List");
-        setSupportActionBar(toolbar);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        // Inflate the layout for this fragment
+        View v =  inflater.inflate(R.layout.fragment_kajian_approved, container, false);
+        //Toolbar toolbar = (Toolbar)v.findViewById(R.id.toolbar);
+     //   toolbar.setTitle("Kajian List");
+       // ((AppCompatActivity)getActivity()).setSupportActionBar(toolbar);
 
         //Init Firebase
         database = FirebaseDatabase.getInstance();
@@ -67,12 +64,12 @@ public class Booking extends AppCompatActivity {
 
 
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        FloatingActionButton fab = (FloatingActionButton)v.findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
-                AlertDialog.Builder mBuilder = new AlertDialog.Builder(Booking.this);
+                AlertDialog.Builder mBuilder = new AlertDialog.Builder(getActivity());
                 View mView = getLayoutInflater().inflate(R.layout.add_booking, null);
                 editNamaPeminjam = (EditText) mView.findViewById(R.id.et_namapeminjam);
                 editOrganisasi = (EditText) mView.findViewById(R.id.et_organisasi);
@@ -81,28 +78,31 @@ public class Booking extends AppCompatActivity {
                 editJamAkhir = (EditText) mView.findViewById(R.id.et_jamakhir);
                 btnSubmit = (Button) mView.findViewById(R.id.btn_submit);
 
+//                editKegiatan = (EditText) mView.findViewById(R.id.et_deskripsikegiatan);
+//                editKegiatan.setOnClickListener(new View.OnClickListener() {
+//                    @Override
+//                    public void onClick(View view) {
+//                        PlacePicker.IntentBuilder builder = new PlacePicker.IntentBuilder();
+//
+//                        Intent intent;
+//                        try {
+//                            intent = builder.build(Booking.this);
+//                            startActivityForResult(intent, PLACE_PICKER_REQUEST);
+//                        } catch (GooglePlayServicesRepairableException e){
+//                            e.printStackTrace();
+//                        } catch (GooglePlayServicesNotAvailableException e){
+//                            e.printStackTrace();
+//                        }
+//
+//                    }
+//                });
+
+
+
 
                 mBuilder.setView(mView);
                 final AlertDialog dialog = mBuilder.create();
                 dialog.show();
-
-                editKegiatan.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        PlacePicker.IntentBuilder builder = new PlacePicker.IntentBuilder();
-
-                        Intent intent;
-                        try {
-                            intent = builder.build(Booking.this);
-                            startActivityForResult(intent, PLACE_PICKER_REQUEST);
-                        } catch (GooglePlayServicesRepairableException e){
-                            e.printStackTrace();
-                        } catch (GooglePlayServicesNotAvailableException e){
-                            e.printStackTrace();
-                        }
-
-                    }
-                });
 
                 editJamMulai.setOnClickListener(new View.OnClickListener() {
 
@@ -113,7 +113,7 @@ public class Booking extends AppCompatActivity {
                         int hour = c.get(Calendar.HOUR_OF_DAY);
                         int minute = c.get(Calendar.MINUTE);
 
-                        TimePickerDialog timePickerDialog = new TimePickerDialog(Booking.this,
+                        TimePickerDialog timePickerDialog = new TimePickerDialog(getActivity(),
 
                                 new TimePickerDialog.OnTimeSetListener() {
 
@@ -139,7 +139,7 @@ public class Booking extends AppCompatActivity {
                         int hour = c.get(Calendar.HOUR_OF_DAY);
                         int minute = c.get(Calendar.MINUTE);
 
-                        TimePickerDialog timePickerDialog = new TimePickerDialog(Booking.this,
+                        TimePickerDialog timePickerDialog = new TimePickerDialog(getActivity(),
                                 new TimePickerDialog.OnTimeSetListener() {
 
                                     @Override
@@ -169,7 +169,7 @@ public class Booking extends AppCompatActivity {
                     @Override
                     public void onClick(View view) {
 
-                        ConnectivityManager connectivity = (ConnectivityManager)getSystemService(Context.CONNECTIVITY_SERVICE);
+                        ConnectivityManager connectivity = (ConnectivityManager)getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
                         NetworkInfo activeNetwork = connectivity.getActiveNetworkInfo();
                         if (activeNetwork != null) { // connected to the internet
                             if (activeNetwork.getType() == ConnectivityManager.TYPE_WIFI) {
@@ -194,7 +194,7 @@ public class Booking extends AppCompatActivity {
                                 dialog.dismiss();
                             }
                         } else {
-                            Toast.makeText(Booking.this, "Internet Connection Not Available, Please Check Your Connection Setting", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getActivity(), "Internet Connection Not Available, Please Check Your Connection Setting", Toast.LENGTH_SHORT).show();
                         }
                     }
                 });
@@ -204,26 +204,29 @@ public class Booking extends AppCompatActivity {
         });
 
         //Load Booking List
-        recyclerBookingList = (RecyclerView) findViewById(R.id.recycler_booking);
+        recyclerBookingList = (RecyclerView)v.findViewById(R.id.recycler_booking);
         recyclerBookingList.hasFixedSize();
-        layoutManager = new LinearLayoutManager(this);
+        layoutManager = new LinearLayoutManager(getActivity());
         recyclerBookingList.setLayoutManager(layoutManager);
         loadBookingList();
-
-
-
+        return v;
     }
 
-    @Override
-    public  void onActivityResult(int requestCode, int resultCode, Intent data){
-        if(requestCode == PLACE_PICKER_REQUEST && requestCode==RESULT_OK){
-            final Place place = PlacePicker.getPlace(getApplicationContext(), data);
-               // Place place = PlacePicker.getPlace(data, getApplicationContext());
-                String address = String.format("Place: ", place.getAddress());
-           // final CharSequence address = place.getAddress();
-            editKegiatan.setText(address);
-        }
-    }
+
+
+
+//        @Override
+//    public  void onActivityResult(int requestCode, int resultCode, Intent data){
+//        if(requestCode == PLACE_PICKER_REQUEST && requestCode==RESULT_OK){
+//
+//            final Place place = PlacePicker.getPlace(this, data);
+////                Place place = PlacePicker.getPlace(data, this);
+////                String address = String.format("Place: ", place.getAddress());
+//            final CharSequence address = place.getAddress();
+//            editKegiatan.setText(address);
+//
+//        }
+//    }
 
 
     public void loadBookingList() {
@@ -268,13 +271,11 @@ public class Booking extends AppCompatActivity {
 
         String s1 = editNamaPeminjam.getText().toString();
         String s2 = editOrganisasi.getText().toString();
-//        String s3 = editKegiatan.getText().toString();
         String s4 = editJamMulai.getText().toString();
         String s5 = editJamAkhir.getText().toString();
 
         if(s1.equals("")
                 || s2.equals("")
-//                || s3.equals("")
                 || s4.equals("")
                 || s5.equals("")
                 ){
@@ -283,6 +284,4 @@ public class Booking extends AppCompatActivity {
             btnSubmit.setEnabled(true);
         }
     }
-
 }
-

@@ -46,20 +46,36 @@ xmlns:app="http://schemas.android.com/apk/res-auto"
         app:met_singleLineEllipsis="true"
         />
 
-    <com.rengwuxian.materialedittext.MaterialEditText
-        android:id="@+id/et_deskripsikegiatan"
-        android:hint="Tempat"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textColorHint="@color/colorPrimary"
-        android:textColor="@color/colorPrimaryDark"
-        android:textSize="20sp"
-        android:inputType="textEmailAddress"
-        app:met_baseColor="@color/colorPrimaryDark"
-        app:met_floatingLabel="highlight"
-        app:met_primaryColor="@color/colorPrimaryDark"
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent">
 
-        />
+        <com.rengwuxian.materialedittext.MaterialEditText
+            android:id="@+id/et_deskripsikegiatan"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:hint="Tempat"
+            android:inputType="textEmailAddress"
+            android:textColor="@color/colorPrimaryDark"
+            android:textColorHint="@color/colorPrimary"
+            android:textSize="20sp"
+            app:met_baseColor="@color/colorPrimaryDark"
+            app:met_floatingLabel="highlight"
+            app:met_primaryColor="@color/colorPrimaryDark" />
+
+        <ImageView
+            android:clickable="true"
+            android:layout_marginTop="20dp"
+            android:layout_width="30dp"
+            android:layout_height="25dp"
+            android:scaleType="fitXY"
+            android:tint="@color/colorPrimary"
+            android:layout_alignParentEnd="true"
+            android:shadowColor="@android:color/black"
+            android:src="@drawable/ic_seleect_place" />
+    </RelativeLayout>
 
     <com.rengwuxian.materialedittext.MaterialEditText
         android:id="@+id/et_jammulai"
