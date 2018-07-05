@@ -16,20 +16,15 @@
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyDENIQhcWz79PaZu7eTQeeSHmfmxRtBHtg" />
-        <activity android:name=".app.MainActivity">
+        <activity android:name=".app.MainActivity" android:theme="@style/AppThemeNoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".app.SignIn" />
-        <activity android:name=".app.SignUp" />
-        <activity
-            android:name=".Booking"
-            android:label="@string/title_activity_booking"
-            android:theme="@style/AppTheme" />
-
+        <activity android:name=".app.SignIn" android:theme="@style/AppThemeNoActionBar" />
+        <activity android:name=".app.SignUp" android:theme="@style/AppThemeNoActionBar"/>
         <activity android:name=".app.MainAct">
         </activity>
     </application>

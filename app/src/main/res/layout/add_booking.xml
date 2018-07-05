@@ -75,7 +75,7 @@ xmlns:app="http://schemas.android.com/apk/res-auto"
             android:tint="@color/colorPrimary"
             android:layout_alignParentEnd="true"
             android:shadowColor="@android:color/black"
-            android:src="@drawable/ic_seleect_place" />
+            android:src="@drawable/ic_select_place" />
     </RelativeLayout>
 
     <com.rengwuxian.materialedittext.MaterialEditText

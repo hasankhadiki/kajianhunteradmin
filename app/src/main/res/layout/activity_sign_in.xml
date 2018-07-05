@@ -16,7 +16,7 @@
 
         <com.rengwuxian.materialedittext.MaterialEditText
             android:id="@+id/et_nrp"
-            android:hint="NRP"
+            android:hint="No. Telepon"
             android:text="085321141025"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
