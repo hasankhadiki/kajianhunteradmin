@@ -19,7 +19,7 @@
             android:minHeight="?android:attr/actionBarSize"
             android:elevation="5dp"
             app:tabTextColor="@android:color/black"
-            app:tabSelectedTextColor="@android:color/darker_gray">
+            app:tabSelectedTextColor="@color/darkerGrey">
 
             <android.support.design.widget.TabItem
                 android:id="@+id/approved"

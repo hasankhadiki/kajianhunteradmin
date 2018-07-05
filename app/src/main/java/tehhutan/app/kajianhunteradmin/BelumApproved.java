@@ -30,7 +30,7 @@ public class BelumApproved extends Fragment {
                              Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_belum_approved, container, false);
         database = FirebaseDatabase.getInstance();
-        bookinglist = database.getReference("KajianList");
+        bookinglist = database.getReference("KajianList/Unverified");
 
         //Load Booking List
         recyclerBookingList = (RecyclerView)v.findViewById(R.id.recycler_booking);

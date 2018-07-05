@@ -1,12 +1,19 @@
 package tehhutan.app.kajianhunteradmin;
 
+import android.Manifest;
+import android.app.Activity;
 import android.app.TimePickerDialog;
 import android.content.Context;
+import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -14,16 +21,22 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
+import android.text.InputType;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
+import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
+import com.google.android.gms.common.GooglePlayServicesRepairableException;
+import com.google.android.gms.location.places.Place;
+import com.google.android.gms.location.places.ui.PlacePicker;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -35,17 +48,19 @@ import tehhutan.app.kajianhunteradmin.model.BookingList;
 
 
 public class KajianApproved extends Fragment {
-    FirebaseDatabase database;
-    DatabaseReference bookinglist;
+    private FirebaseDatabase database;
+    private DatabaseReference bookinglist;
 
-    RecyclerView recyclerBookingList;
-    RecyclerView.LayoutManager layoutManager;
+    private RecyclerView recyclerBookingList;
+    private RecyclerView.LayoutManager layoutManager;
 
-    BookingList newBooking;
+    private BookingList newBooking;
 
-    EditText editNamaPeminjam, editOrganisasi, editKegiatan, editJamMulai, editJamAkhir;
-    Button btnSubmit;
-    int PLACE_PICKER_REQUEST = 1;
+    private EditText editNamaPeminjam, editOrganisasi, editKegiatan, editJamMulai, editJamAkhir;
+    private Button btnSubmit;
+    private ImageView pickPlace;
+    private Double plcLatitude=0.0, plcLongtitude=0.0;
+    private final int PLACE_PICKER_REQUEST = 442;
 
 
 
@@ -60,7 +75,7 @@ public class KajianApproved extends Fragment {
 
         //Init Firebase
         database = FirebaseDatabase.getInstance();
-        bookinglist = database.getReference("KajianList");
+        bookinglist = database.getReference("KajianList/Verified");
 
 
 
@@ -77,26 +92,25 @@ public class KajianApproved extends Fragment {
                 editJamMulai = (EditText) mView.findViewById(R.id.et_jammulai);
                 editJamAkhir = (EditText) mView.findViewById(R.id.et_jamakhir);
                 btnSubmit = (Button) mView.findViewById(R.id.btn_submit);
+                pickPlace = (ImageView) mView.findViewById(R.id.pickPlace);
 
-//                editKegiatan = (EditText) mView.findViewById(R.id.et_deskripsikegiatan);
-//                editKegiatan.setOnClickListener(new View.OnClickListener() {
-//                    @Override
-//                    public void onClick(View view) {
-//                        PlacePicker.IntentBuilder builder = new PlacePicker.IntentBuilder();
-//
-//                        Intent intent;
-//                        try {
-//                            intent = builder.build(Booking.this);
-//                            startActivityForResult(intent, PLACE_PICKER_REQUEST);
-//                        } catch (GooglePlayServicesRepairableException e){
-//                            e.printStackTrace();
-//                        } catch (GooglePlayServicesNotAvailableException e){
-//                            e.printStackTrace();
-//                        }
-//
-//                    }
-//                });
+                pickPlace.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        PlacePicker.IntentBuilder builder = new PlacePicker.IntentBuilder();
 
+                        Intent intent;
+                        try {
+                            intent = builder.build(getActivity());
+                            startActivityForResult(intent, PLACE_PICKER_REQUEST);
+                        } catch (GooglePlayServicesRepairableException e){
+                            e.printStackTrace();
+                        } catch (GooglePlayServicesNotAvailableException e){
+                            e.printStackTrace();
+                        }
+
+                    }
+                });
 
 
 
@@ -214,19 +228,16 @@ public class KajianApproved extends Fragment {
 
 
 
-
-//        @Override
-//    public  void onActivityResult(int requestCode, int resultCode, Intent data){
-//        if(requestCode == PLACE_PICKER_REQUEST && requestCode==RESULT_OK){
-//
-//            final Place place = PlacePicker.getPlace(this, data);
-////                Place place = PlacePicker.getPlace(data, this);
-////                String address = String.format("Place: ", place.getAddress());
-//            final CharSequence address = place.getAddress();
-//            editKegiatan.setText(address);
-//
-//        }
-//    }
+    @Override
+    public  void onActivityResult(int requestCode, int resultCode, Intent data){
+        if(requestCode == PLACE_PICKER_REQUEST && requestCode== Activity.RESULT_OK){
+            Place place = PlacePicker.getPlace(getActivity(), data);
+            String address = String.format("", place.getAddress());
+            double latitude = place.getLatLng().latitude;
+            double longitude = place.getLatLng().longitude;
+            editKegiatan.setText(address);
+        }
+    }
 
 
     public void loadBookingList() {
@@ -266,6 +277,27 @@ public class KajianApproved extends Fragment {
             checkFieldsForEmptyValues();
         }
     };
+/*
+    void mintaPerizinan(){
+        if(ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION != PackageManager.PERMISSION_GRANTED)){
+            if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M){
+                requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION, MY_PERMISSION_FINE_LOCATION});
+            }
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        switch (requestCode){
+            case MY_PERMISSION_FINE_LOCATION:{
+                if(grantResults[0] != PackageManager.PERMISSION_GRANTED){
+                    finish();
+                }
+            }
+        }
+    }
+    */
 
     void checkFieldsForEmptyValues(){
 

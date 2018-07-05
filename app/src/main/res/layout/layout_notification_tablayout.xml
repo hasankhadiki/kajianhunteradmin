@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center">
+        <TextView
+            android:id="@+id/judulTab1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="PERLU DISETUJUI"
+            android:textStyle="bold"
+            android:textColor="#6b6b6b"
+            />
+        <RelativeLayout
+            android:id="@+id/notif"
+            android:layout_width="wrap_content"
+            android:paddingLeft="5sp"
+            android:paddingRight="5sp"
+            android:layout_height="15sp"
+            android:layout_marginLeft="3sp"
+            android:layout_gravity="center_vertical"
+            android:background="@drawable/shape_circle_notif"
+            android:backgroundTint="@color/colorPrimary">
+            <TextView
+                android:id="@+id/jlm_belum_approve"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:text="0"
+                android:textSize="10sp"
+                android:textColor="@color/white"
+                android:textAlignment="center"/>
+        </RelativeLayout>
+    </LinearLayout>
+</FrameLayout>
