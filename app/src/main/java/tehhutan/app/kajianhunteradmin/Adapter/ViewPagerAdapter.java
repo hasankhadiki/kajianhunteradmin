@@ -46,19 +46,12 @@ public class ViewPagerAdapter extends FragmentPagerAdapter {
         lstTitles.add(title);
     }
 
-    public View getTabView(int position, Context context,String tdkApproveCount) {
+    public View getTabView(int position, Context context) {
         // Given you have a custom layout in `res/layout/custom_tab.xml` with a TextView and ImageView
         //TextView judulTAB2 = (TextView)v.findViewById(R.id.judulTab2);
         View v;
         if(position==1){
             v = LayoutInflater.from(context).inflate(R.layout.layout_notification_tablayout, null);
-            TextView tdkSetuju = (TextView)v.findViewById(R.id.jlm_belum_approve);
-            RelativeLayout notifikasi = (RelativeLayout)v.findViewById(R.id.notif);
-            if(tdkApproveCount.equals("0")){
-                notifikasi.setVisibility(View.GONE);
-            }else {
-                tdkSetuju.setText(tdkApproveCount);
-            }
             //judulTAB2.setTextColor(Color.parseColor("#A9A9A9"));
         }else{
             v = LayoutInflater.from(context).inflate(R.layout.layout_notification_tablayout1, null);
@@ -67,6 +60,19 @@ public class ViewPagerAdapter extends FragmentPagerAdapter {
           //  judulTAB2.setTextColor(Color.parseColor("#000000"));
         }
         return v;
+    }
+
+    public void SetNotApprovedCount(String tdkApproveCount, TabLayout tabLayout){
+        TabLayout.Tab tab = tabLayout.getTabAt(1);
+        View v = tab.getCustomView();
+        TextView tdkSetuju = (TextView)v.findViewById(R.id.jlm_belum_approve);
+        RelativeLayout notifikasi = (RelativeLayout)v.findViewById(R.id.notif);
+        if(tdkApproveCount.equals("0")){
+            notifikasi.setVisibility(View.GONE);
+        }else {
+            notifikasi.setVisibility(View.VISIBLE);
+            tdkSetuju.setText(tdkApproveCount);
+        }
     }
 
     public void SetOnSelectView(TabLayout tabLayout, int position, Context c) {

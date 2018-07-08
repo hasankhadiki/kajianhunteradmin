@@ -53,24 +53,21 @@ public class Kajian extends Fragment {
         mViewPager.setAdapter(adapter);
         tabLayout.setupWithViewPager(mViewPager);
 
+        for(int i=0;i<2;i++){
+            TabLayout.Tab tab_ = tabLayout.getTabAt(i);
+            tab_.setCustomView(adapter.getTabView(tab_.getPosition(), getActivity()));
+        }
         DatabaseReference tdkDisetujui = FirebaseDatabase.getInstance().getReference("KajianList/Unverified");
         tdkDisetujui.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 jumlahTdkApprove = dataSnapshot.getChildrenCount();
-                Log.i("jumlah : ",String.valueOf(jumlahTdkApprove));
-                for(int i=0;i<2;i++){
-                    TabLayout.Tab tab_ = tabLayout.getTabAt(i);
-                    tab_.setCustomView(adapter.getTabView(tab_.getPosition(), getActivity(),String.valueOf(jumlahTdkApprove)));
-                }
+                adapter.SetNotApprovedCount(String.valueOf(jumlahTdkApprove), tabLayout);
             }
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-                for(int i=0;i<2;i++){
-                    TabLayout.Tab tab_ = tabLayout.getTabAt(i);
-                    tab_.setCustomView(adapter.getTabView(tab_.getPosition(), getActivity(),"0"));
-                }
+
             }
         });
         tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {

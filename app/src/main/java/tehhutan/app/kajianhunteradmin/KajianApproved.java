@@ -37,8 +37,11 @@ import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
 import com.google.android.gms.common.GooglePlayServicesRepairableException;
 import com.google.android.gms.location.places.Place;
 import com.google.android.gms.location.places.ui.PlacePicker;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.Calendar;
 
@@ -65,9 +68,10 @@ public class KajianApproved extends Fragment {
     private EditText editNamaPeminjam, editOrganisasi, editKegiatan, editJamMulai, editJamAkhir;
     private Button btnSubmit;
     private ImageView pickPlace;
+    private boolean isPlaceButtonClicked=false;
 
-
-
+    private double latitude = 0.0;
+    private double longtitude = 0.0;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -97,9 +101,7 @@ public class KajianApproved extends Fragment {
                 pickPlace = (ImageView)  mainRef.kajianDialog.findViewById(R.id.pickPlace);
 
                 final String mGroupId = bookinglist.push().getKey();
-
-
-
+                isPlaceButtonClicked=false;
                 mBuilder.setView( mainRef.kajianDialog);
                 final AlertDialog dialog = mBuilder.create();
                 dialog.show();
@@ -111,6 +113,7 @@ public class KajianApproved extends Fragment {
 
                         Intent intent;
                         try {
+                            isPlaceButtonClicked=true;
                             intent = builder.build(getActivity());
                             mainRef.startActivityForResult(intent, PLACE_PICKER_REQUEST);
                         } catch (GooglePlayServicesRepairableException e){
@@ -189,9 +192,7 @@ public class KajianApproved extends Fragment {
 
                         ConnectivityManager connectivity = (ConnectivityManager)getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
                         NetworkInfo activeNetwork = connectivity.getActiveNetworkInfo();
-                        if(mainRef.plcLatitude==86.0
-                                        || mainRef.plcLongtitude==181.0
-                                ){
+                        if(!isPlaceButtonClicked){
                             Toast.makeText(getActivity(), "Silahkan ambil lokasi dengan menekan tombol lokasi!", Toast.LENGTH_SHORT).show();
                         }  else
                         if (activeNetwork != null) { // connected to the internet
@@ -204,8 +205,8 @@ public class KajianApproved extends Fragment {
                                         , editJamAkhir.getText().toString()
                                 );
                                 bookinglist.child(mGroupId).setValue(newBooking);
-                                bookinglist.child(mGroupId).child("koordinatTempat").child("latitude").setValue(String.valueOf(mainRef.plcLatitude));
-                                bookinglist.child(mGroupId).child("koordinatTempat").child("longtitude").setValue(String.valueOf(mainRef.plcLongtitude));
+                                bookinglist.child(mGroupId).child("koordinatTempat").child("latitude").setValue(mainRef.plcLatitude);
+                                bookinglist.child(mGroupId).child("koordinatTempat").child("longtitude").setValue(mainRef.plcLongtitude);
                                // bookinglist.child(mGroupId).child("koordinatTempat").child("alamatMap").setValue(mainRef.locationUri);
                                 dialog.dismiss();
                             } else if (activeNetwork.getType() == ConnectivityManager.TYPE_MOBILE) {
@@ -217,8 +218,8 @@ public class KajianApproved extends Fragment {
                                         , editJamAkhir.getText().toString()
                                 );
                                 bookinglist.child(mGroupId).setValue(newBooking);
-                                bookinglist.child(mGroupId).child("koordinatTempat").child("latitude").setValue(String.valueOf(mainRef.plcLatitude));
-                                bookinglist.child(mGroupId).child("koordinatTempat").child("longtitude").setValue(String.valueOf(mainRef.plcLongtitude));
+                                bookinglist.child(mGroupId).child("koordinatTempat").child("latitude").setValue(mainRef.plcLatitude);
+                                bookinglist.child(mGroupId).child("koordinatTempat").child("longtitude").setValue(mainRef.plcLongtitude);
                                // bookinglist.child(mGroupId).child("koordinatTempat").child("alamatMap").setValue(mainRef.locationUri);
                                 dialog.dismiss();
                             }
@@ -252,6 +253,19 @@ public class KajianApproved extends Fragment {
                 viewHolder.txtKegiatan.setText(model.getKegiatan());
                 viewHolder.txtJamMulai.setText(model.getJamMulai());
                 viewHolder.txtJamAkhir.setText(model.getJamAkhir());
+                DatabaseReference postRef= getRef(position);
+                postRef.addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        latitude = dataSnapshot.child("koordinatTempat").child("latitude").getValue(Double.class);
+                        longtitude = dataSnapshot.child("koordinatTempat").child("longtitude").getValue(Double.class);
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+
+                    }
+                });
 
                 final BookingList clickItem = model;
                 viewHolder.setItemClickListener(new ItemClickListener() {
