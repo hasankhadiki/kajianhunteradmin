@@ -112,7 +112,7 @@ public class KajianApproved extends Fragment {
                         Intent intent;
                         try {
                             intent = builder.build(getActivity());
-                            getActivity().startActivityForResult(intent, PLACE_PICKER_REQUEST);
+                            mainRef.startActivityForResult(intent, PLACE_PICKER_REQUEST);
                         } catch (GooglePlayServicesRepairableException e){
                             e.printStackTrace();
                         } catch (GooglePlayServicesNotAvailableException e){
