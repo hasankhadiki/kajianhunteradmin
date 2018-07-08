@@ -11,7 +11,12 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.EditText;
 import android.widget.Toast;
+
+import com.google.android.gms.location.places.Place;
+import com.google.android.gms.location.places.ui.PlacePicker;
 
 import tehhutan.app.kajianhunteradmin.Adapter.ViewPagerAdapter;
 import tehhutan.app.kajianhunteradmin.BelumApproved;
@@ -21,7 +26,10 @@ import tehhutan.app.kajianhunteradmin.Menu.Profile;
 import tehhutan.app.kajianhunteradmin.R;
 
 public class MainAct extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener {
-
+    public View kajianDialog;
+    public Double plcLatitude=86.0, plcLongtitude=181.0;
+    //public String locationUri="";
+    private final int PLACE_PICKER_REQUEST = 442;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -80,5 +88,21 @@ public class MainAct extends AppCompatActivity implements BottomNavigationView.O
             }
         },3000);
         click_duaKali=true;
+    }
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        // Add your code here
+        //Toast.makeText(MainAct.this, "Fragment Got it: " + requestCode + ", " + resultCode, Toast.LENGTH_SHORT).show();
+        if (requestCode == PLACE_PICKER_REQUEST && resultCode == RESULT_OK) {
+            Place place = PlacePicker.getPlace(data, MainAct.this);
+            String address = String.format("%s", place.getAddress());
+            EditText tempat = (EditText) kajianDialog.findViewById(R.id.et_deskripsikegiatan);
+            plcLatitude = place.getLatLng().latitude;
+            plcLongtitude = place.getLatLng().longitude;
+          //  locationUri = String.format("%s", String.valueOf(place.getWebsiteUri()));
+            //Toast.makeText(MainAct.this, "alamat " + address + "\nlatitude : " + String.valueOf(latitude) + "\nlongtitude : " + String.valueOf(longitude), Toast.LENGTH_LONG).show();
+            tempat.setText(address);
+        }
     }
 }

@@ -1,6 +1,7 @@
 package tehhutan.app.kajianhunteradmin.Menu;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.net.Uri;
@@ -44,7 +45,6 @@ public class Kajian extends Fragment {
         View v = inflater.inflate(R.layout.fragment_kajian, container, false);
         mViewPager = (ViewPager)v.findViewById(R.id.container_vp);
         tabLayout = (TabLayout)v.findViewById(R.id.tabs);
-
 
         adapter = new ViewPagerAdapter(getChildFragmentManager());
 
@@ -120,5 +120,4 @@ public class Kajian extends Fragment {
         ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
         ((AppCompatActivity) getActivity()).getSupportActionBar().setCustomView(textView);
     }
-
 }
