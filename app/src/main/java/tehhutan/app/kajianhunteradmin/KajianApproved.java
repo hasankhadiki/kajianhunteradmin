@@ -99,6 +99,7 @@ public class KajianApproved extends Fragment {
                 editJamAkhir = (EditText)  mainRef.kajianDialog.findViewById(R.id.et_jamakhir);
                 btnSubmit = (Button)  mainRef.kajianDialog.findViewById(R.id.btn_submit);
                 pickPlace = (ImageView)  mainRef.kajianDialog.findViewById(R.id.pickPlace);
+                pickPlace.bringToFront();
 
                 final String mGroupId = bookinglist.push().getKey();
                 isPlaceButtonClicked=false;
