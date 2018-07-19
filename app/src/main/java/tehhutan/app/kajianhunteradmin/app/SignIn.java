@@ -2,6 +2,7 @@ package tehhutan.app.kajianhunteradmin.app;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -18,6 +19,8 @@ import com.rengwuxian.materialedittext.MaterialEditText;
 //import tehhutan.app.kajianhunteradmin.Booking;
 import tehhutan.app.kajianhunteradmin.R;
 import tehhutan.app.kajianhunteradmin.model.User;
+
+import static tehhutan.app.kajianhunteradmin.utils.Constants.MY_PREFS_NAME;
 
 public class SignIn extends AppCompatActivity {
 
@@ -57,8 +60,11 @@ public class SignIn extends AppCompatActivity {
                           User user = dataSnapshot.child(editNrp.getText().toString()).getValue(User.class);
                           if (user.getPassword().equals(editPassword.getText().toString())) {
 //                              Toast.makeText(SignIn.this, "Berhasil Masuk", Toast.LENGTH_SHORT).show();
+                              // untuk menyimpan id dalam aplikasi
+                              SharedPreferences.Editor editor = getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE).edit();
+                              editor.putString("user", user.getWa());
+                              editor.apply();
                               Intent bookingIntent = new Intent(SignIn.this, MainAct.class);
-
                               startActivity(bookingIntent);
                               finish();
                           } else {

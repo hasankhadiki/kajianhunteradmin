@@ -16,17 +16,24 @@
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/api_key" />
-        <activity android:name=".app.MainActivity" android:theme="@style/AppThemeNoActionBar">
+
+        <activity
+            android:name=".app.MainActivity"
+            android:theme="@style/AppThemeNoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".app.SignIn" android:theme="@style/AppThemeNoActionBar" />
-        <activity android:name=".app.SignUp" android:theme="@style/AppThemeNoActionBar"/>
-        <activity android:name=".app.MainAct">
-        </activity>
+        <activity
+            android:name=".app.SignIn"
+            android:theme="@style/AppThemeNoActionBar" />
+        <activity
+            android:name=".app.SignUp"
+            android:theme="@style/AppThemeNoActionBar" />
+        <activity android:name=".app.MainAct"></activity>
+        <activity android:name=".PostDanKomentar"></activity>
     </application>
 
 </manifest>
