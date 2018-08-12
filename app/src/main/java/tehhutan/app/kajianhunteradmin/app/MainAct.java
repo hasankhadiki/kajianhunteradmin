@@ -23,6 +23,7 @@ import tehhutan.app.kajianhunteradmin.BelumApproved;
 import tehhutan.app.kajianhunteradmin.KajianApproved;
 import tehhutan.app.kajianhunteradmin.Menu.Kajian;
 import tehhutan.app.kajianhunteradmin.Menu.Profile;
+import tehhutan.app.kajianhunteradmin.Menu.Timeline;
 import tehhutan.app.kajianhunteradmin.R;
 
 public class MainAct extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener {
@@ -61,6 +62,9 @@ public class MainAct extends AppCompatActivity implements BottomNavigationView.O
         switch (item.getItemId()) {
             case R.id.navigation_finding:
                 fragment = new Kajian();
+                break;
+            case R.id.navigation_timeline:
+                fragment = new Timeline();
                 break;
             case R.id.navigation_profile:
                 fragment = new Profile();

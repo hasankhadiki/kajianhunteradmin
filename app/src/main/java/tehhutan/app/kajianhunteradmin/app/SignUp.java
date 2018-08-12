@@ -7,6 +7,7 @@ import android.text.Editable;
 import android.text.Html;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.util.Patterns;
 import android.view.KeyEvent;
 import android.view.View;
@@ -32,8 +33,8 @@ public class SignUp extends AppCompatActivity {
 
     MaterialEditText editNrp, editEmail, editNama, editPassword;
     Button btnSignUp;
-
-
+    DatabaseReference table_user;
+    boolean UserTelahAda = false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -61,7 +62,7 @@ public class SignUp extends AppCompatActivity {
 
         //Initialize Firebase
         FirebaseDatabase database = FirebaseDatabase.getInstance();
-        final DatabaseReference table_user = database.getReference("User");
+        table_user = database.getReference("User");
 
 
         btnSignUp.setOnClickListener(new View.OnClickListener() {
@@ -73,23 +74,16 @@ public class SignUp extends AppCompatActivity {
                 mDialog.setMessage("Tunggu sebentar..");
                 mDialog.show();
 
-
                 table_user.child("Admin").addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
                     //Cek apakah NRP sudah ada didalam database
-                        if(dataSnapshot.child(editNrp.getText().toString()).exists())
-                        {
+                        if(dataSnapshot.child(editNrp.getText().toString()).exists()){
                             mDialog.dismiss();
-                            Toast.makeText(SignUp.this, "NRP tersebut sudah ada di dalam database", Toast.LENGTH_SHORT).show();
-                        }
-                        else
-                        {
-                            mDialog.dismiss();
-                            User user = new User(editEmail.getText().toString(), editNama.getText().toString(), editPassword.getText().toString());
-                            table_user.child("Admin").child(editNrp.getText().toString()).setValue(user);
-                            Toast.makeText(SignUp.this, "Pendaftaran akun baru berhasil", Toast.LENGTH_SHORT).show();
-                            finish();
+                            Toast.makeText(SignUp.this, "No telepon telah terdaftar!", Toast.LENGTH_SHORT).show();
+                            return;
+                        } else {
+                            cekUserBiasa(mDialog);
                         }
 
                     }
@@ -103,6 +97,32 @@ public class SignUp extends AppCompatActivity {
         });
     }
 
+    private void cekUserBiasa(final ProgressDialog mDialog) {
+        table_user.child("Regular").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                //Cek apakah NRP sudah ada didalam database
+                if(dataSnapshot.child(editNrp.getText().toString()).exists()){
+                    mDialog.dismiss();
+                    Toast.makeText(SignUp.this, "No telepon telah terdaftar!", Toast.LENGTH_SHORT).show();
+                    return;
+                } else {
+                    mDialog.dismiss();
+                    User user = new User(editEmail.getText().toString(), editNama.getText().toString(), editPassword.getText().toString(), null, editNrp.getText().toString());
+                    table_user.child("Admin").child(editNrp.getText().toString()).setValue(user);
+                    Toast.makeText(SignUp.this, "Pendaftaran akun baru berhasil", Toast.LENGTH_SHORT).show();
+                    finish();
+                }
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+    }
+
     private boolean validateEmail(String string){
         if (TextUtils.isEmpty(string)) {
             return false;
@@ -110,6 +130,7 @@ public class SignUp extends AppCompatActivity {
             return android.util.Patterns.EMAIL_ADDRESS.matcher(string).matches();
         }
     }
+
 
     private  void checkFieldsForEmptyValues(){
         String email = editEmail.getText().toString();
