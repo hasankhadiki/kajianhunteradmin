@@ -203,7 +203,10 @@ public class KajianApproved extends Fragment {
                                         , editNamaPeminjam.getText().toString()
                                         , editKegiatan.getText().toString()
                                         , editJamMulai.getText().toString()
-                                        , editJamAkhir.getText().toString()
+                                        , editJamAkhir.getText().toString(),
+                                        "link"
+                                        ,mainRef.plcLatitude
+                                        ,mainRef.plcLongtitude
                                 );
                                 bookinglist.child(mGroupId).setValue(newBooking);
                                 bookinglist.child(mGroupId).child("koordinatTempat").child("latitude").setValue(mainRef.plcLatitude);
@@ -217,6 +220,9 @@ public class KajianApproved extends Fragment {
                                         , editKegiatan.getText().toString()
                                         , editJamMulai.getText().toString()
                                         , editJamAkhir.getText().toString()
+                                        ,"link"
+                                        ,mainRef.plcLatitude
+                                        ,mainRef.plcLongtitude
                                 );
                                 bookinglist.child(mGroupId).setValue(newBooking);
                                 bookinglist.child(mGroupId).child("koordinatTempat").child("latitude").setValue(mainRef.plcLatitude);
@@ -258,8 +264,8 @@ public class KajianApproved extends Fragment {
                 postRef.addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
-                        latitude = dataSnapshot.child("koordinatTempat").child("latitude").getValue(Double.class);
-                        longtitude = dataSnapshot.child("koordinatTempat").child("longtitude").getValue(Double.class);
+                        latitude = dataSnapshot.child("latitude").getValue(Double.class);
+                        longtitude = dataSnapshot.child("longitude").getValue(Double.class);
                     }
 
                     @Override

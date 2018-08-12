@@ -83,6 +83,21 @@ xmlns:app="http://schemas.android.com/apk/res-auto"
     </RelativeLayout>
 
     <com.rengwuxian.materialedittext.MaterialEditText
+        android:id="@+id/et_linktempat"
+        android:hint="Link Tempat"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColorHint="@color/colorPrimary"
+        android:textColor="@color/colorPrimaryDark"
+        android:textSize="20sp"
+        android:inputType="textEmailAddress"
+        app:met_baseColor="@color/colorPrimaryDark"
+        app:met_floatingLabel="highlight"
+        app:met_primaryColor="@color/colorPrimaryDark"
+
+        />
+
+    <com.rengwuxian.materialedittext.MaterialEditText
         android:id="@+id/et_jammulai"
         android:hint="Jam Mulai"
         android:layout_width="match_parent"

@@ -11,16 +11,23 @@ public class BookingList {
     private String JamMulai;
     private String JamAkhir;
 
+    private String LinkTempat;
+    private Double Latitude;
+    private Double Longitude;
+
     public BookingList() {
     }
 
-    public BookingList(String departemen,  String nama, String kegiatan, String jamMulai, String jamAkhir) {
 
+    public BookingList(String departemen, String kegiatan, String nama, String jamMulai, String jamAkhir, String linkTempat, Double latitude, Double longitude) {
         Departemen = departemen;
-        Nama = nama;
         Kegiatan = kegiatan;
+        Nama = nama;
         JamMulai = jamMulai;
         JamAkhir = jamAkhir;
+        LinkTempat = linkTempat;
+        Latitude = latitude;
+        Longitude = longitude;
     }
 
     public String getDepartemen() {
@@ -63,5 +70,27 @@ public class BookingList {
         JamAkhir = jamAkhir;
     }
 
+    public String getLinkTempat() {
+        return LinkTempat;
+    }
 
+    public void setLinkTempat(String linkTempat) {
+        LinkTempat = linkTempat;
+    }
+
+    public Double getLatitude() {
+        return Latitude;
+    }
+
+    public void setLatitude(Double latitude) {
+        Latitude = latitude;
+    }
+
+    public Double getLongitude() {
+        return Longitude;
+    }
+
+    public void setLongitude(Double longitude) {
+        Longitude = longitude;
+    }
 }
